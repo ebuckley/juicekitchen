@@ -4,6 +4,7 @@ var express = require('express'),
 	Q = require('q')
 	request = require('request'),
 	Knex = require('knex'),
+	Scraper = require('./Scraper'),
 	Data = require('./Data');
 
 var	subreddit = "aww";
@@ -15,48 +16,62 @@ var knex = Knex.initialize({
 	}
 });
 // database handle
-var Things = Data(knex);
-
+var DB = Data(knex);
+DB.createTables();
+var scraper = Scraper(DB);
 
 app.use(express.static('./public'));
 
 app.get('/', function (req, res) {
 	res.sendfile('index.html');
 });
+app.get('/drop', function (req, res) {
+	DB.dropTables().then(function (arr) {
+		res.send(arr);
+	}, function (err) {
+		res.status(400).send(err);
+	});
+});
+app.get('/scrape/:sub', function (req, res) {
 
-app.post('/thread', function(req, res) {
-		var url = 'http://www.reddit.com' + item.data.permalink + '.json';
-		request(url, function (err, response, body) {
-			if (err) {
-				commentThen.reject(err);
-			};
-			var comms = JSON.parse(body)[1].data.children;
-			var threadWithComments = _.extend(thread_data, {comments: comms});
-			console.log('resolving thread:' + threadWithComments.title);
-			commentThen.resolve( threadWithComments );
+	scraper.getSub(req.params.sub).then(function (threads) {
+
+		threads =_.chain(threads.objects).map(function (item) {
+			var image = scraper.getImage(item.id, item.url);
+			if (image !== 'error') {
+				DB.Images.create(image, item).then(function (id) {
+					console.log('created image row ' + id);
+				}, function (err) {
+					console.log('error creating image row ' + err);
+				});
+				return item;
+			}
+		}).filter(function (item) {
+			if (item === undefined) {
+				return false;
+			} else {
+				return true;
+			}
+		}).value();
+		res.send({
+			meta: {
+				count: threads.length
+			},
+			objects: threads
 		});
+
+	}, function (err) {
+		res.status(400).send(err);
+	});
 });
 
-app.get('/titles', function (req, res) {
-
-	request('http://www.reddit.com/r/' + subreddit + '.json', function (err, response, body) {
-		var redditResponse = JSON.parse(body);
-
-		//get the top threads
-		var threads = _.chain(redditResponse)
-		.pick(redditResponse, 'data')
-		.value().data.children;
-
-		// get the comment threads for each one
-		threads = _.map(threads, function (item) {
-			var commentThen = Q.defer();
-			var thread_data = _.pick(item.data, 'score', 'title', 'created_utc', 'permalink');
-			return thread_data;
-		});
-
-		res.send(threads);
+app.get('/images', function (req, res) {
+	DB.Images.get().then(function (data) {
+		res.send(data);
+	}, function (err) {
+		res.status(400).send(err);
 	});
-})
+});
 
 app.listen(3000);
 console.log('Server started on port 3000')
