@@ -13,3 +13,24 @@ How many upvotes did this get?
 How many retweets did this get
 
 how many views did this get?
+
+
+Iteration one, how many upvotes did this comment get?
+
+
+
+Data Model;
+	Comment content
+	upvotes
+	id
+
+UserAnswer
+	id
+	DataId
+	UserId
+	guess
+
+User
+	id
+	name
+	pw

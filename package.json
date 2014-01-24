@@ -7,5 +7,13 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "creative commons"
+  "license": "creative commons",
+  "dependencies": {
+    "express": "~3.4.8",
+    "knex": "~0.5.4",
+    "sqlite3": "~2.2.0",
+    "request": "~2.33.0",
+    "underscore": "~1.5.2",
+    "q": "~1.0.0"
+  }
 }
