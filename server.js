@@ -3,16 +3,20 @@ var express = require('express'),
 	_ = require('underscore'),
 	Q = require('q')
 	request = require('request'),
-	subreddit = "aww";
-/*
-Do this when i actuallly need a database....
+	Knex = require('knex'),
+	Data = require('./Data');
+
+var	subreddit = "aww";
+
 var knex = Knex.initialize({
 	client: 'sqlite3',
 	connection: {
-		filename: "./data.db"
+		filename: "./mydb.sqlite"
 	}
 });
-*/
+// database handle
+var Things = Data(knex);
+
 
 app.use(express.static('./public'));
 
