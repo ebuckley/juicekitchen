@@ -58,6 +58,7 @@ module.exports = function (connection) {
 
 			_.map(models, function (model) {
 				model.data = JSON.parse(model.data);
+				model.url = '/' + model.path.split('\\').join('/');
 				return model;
 			});
 			return models;

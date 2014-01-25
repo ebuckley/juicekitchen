@@ -1,46 +1,75 @@
 angular.module('app', [])
-.controller('PageController', function ($scope, QuestionService) {
-	$scope.title = "IT WORKS.... kinda";
-	$scope.totalScore = 0;
-	$scope.guessMessage = "";
+.controller('PageController', function ($scope, MatchService) {
+	$scope.game = {
+	};
+	
+	MatchService.getImages().success(function (data) {
+		$scope.images = data;
+		$scope.game = {};
+		$scope.game.totalScore = 0;
+		$scope.game.images = _.sample(data, 5);
+		$scope.game.title = _.sample($scope.game.images, 1)[0].data.title;
+		$scope.game.activeIndex = Math.floor($scope.game.images.length / 2);
+		updateGameState();
 
-	QuestionService.getComments().success(function (data) {
-		$scope.threads = data;
-		$scope.thread = $scope.threads.pop();
 	});
+
+	var updateGameState = function () {
+		$scope.game.activeIndex = Math.abs($scope.game.activeIndex % $scope.game.images.length);
+		$scope.game.active = $scope.game.images[$scope.game.activeIndex];
+
+		if (($scope.game.activeIndex - 1) > 0) {
+			$scope.game.previous = $scope.game.images[$scope.game.activeIndex - 1];
+		} else {
+			$scope.game.previous = {url:'blank.png'};
+		}
+
+		if (($scope.game.activeIndex + 1) < $scope.game.images.length) {
+			$scope.game.next = $scope.game.images[$scope.game.activeIndex + 1];
+		} else {
+			$scope.game.next = {url:'blank.png'};
+		}
+		console.log($scope.game);
+		$scope.$digest();
+	};
 
 	$scope.datify = function (arg) {
 		return "Created: " + moment.unix(arg).fromNow();
-	}
-	$scope.makeGuess = function () {
-		var guess = Number($scope.guess);
-		if (! _.isNaN(guess) && _.isNumber(guess)) {
-
-			var delta = $scope.thread.score - guess;
-			var scoreModifier = ($scope.thread.score - Math.abs(delta)) / $scope.thread.score;
-			if (delta > 0) {
-				$scope.guessMessage = 'Your guess is too damn low';
-			} else if (delta === 0) {
-				$scope.totalScore *= 10;
-				$scope.guessMessage = 'You fucking hacker';
-			} else {
-				$scope.guessMessage = 'Your guess is too damn high';
-			} 
-			$scope.totalScore += 1000 * scoreModifier;
-
-			$scope.thread = $scope.threads.pop();
-		}
+	};
+	
+	$scope.goLeft = function () {
+		$scope.game.activeIndex -= 1;
+		updateGameState();
+	};
+	$scope.goRight = function () {
+		$scope.game.activeIndex += 1;
+		updateGameState();
+	};
+	$scope.answer = function() {
+		console.log('ANSWER');
 	};
 })
-.service('QuestionService',function ($http, $q) {
+.service('MatchService',function ($http, $q) {
 	var Service = {};
 
 	//Arbitrailly grab the next question
-	Service.getComments = function () {
+	Service.getImages = function () {
 		return $http({
 			method: 'GET',
-			url: '/titles'
+			url: '/images'
 		});
 	};
 	return Service;
+})
+.directive('keybinding', function () {
+	return {
+		restrict: 'E',
+		scope: {
+			invoke: '&'
+		},
+		link: function (scope, el, attr) {
+			console.log('linked a directive!');
+			Mousetrap.bind(attr.on, scope.invoke);
+		}
+	};
 });

@@ -21,6 +21,7 @@ DB.createTables();
 var scraper = Scraper(DB);
 
 app.use(express.static('./public'));
+app.use('/images', express.static('./images'));
 
 app.get('/', function (req, res) {
 	res.sendfile('index.html');
