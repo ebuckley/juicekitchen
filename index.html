@@ -23,9 +23,13 @@
 						{{pad(game.totalScore, 4, '')}}
 					</h2>
 					<div class='clearfix'></div>
-					<div class='score-display pull-right'>
-					<h3>{{game.flash}}</h3>
+					<div ng-repeat='flash in game.flashes' ng-animate="'animate'">
+						<div class='score-display pull-right' >
+							<h3>{{flash}}</h3>
+						</div>
+						<div class="clearfix"></div>
 					</div>
+					
 				</div>
 				<div class="col-md-8">
 					<h1 class='center-block'>

@@ -8,3 +8,9 @@ Add options choose your subreddit
 	choose New. Hot, Top other option.
 Multiplayer
 	You can see how many people have guessed and how many people got the question right
+
+
+Bugs
+	* sample can return the same item twice... so don't use it for selecting a match from an image
+
+	*

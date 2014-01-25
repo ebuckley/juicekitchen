@@ -3,13 +3,14 @@ angular.module('app', [])
 	$scope.game = {
 	};
 	
-	//messages that spawn on the page below the score
-	$scope.game.flashes = [];
-
+	/**
+	 * Initialization
+	 */
 	MatchService.getImages().success(function (data) {
 		$scope.images = data;
 		$scope.game = {};
 		$scope.game.totalScore = 0;
+		$scope.game.flashes = [];
 		$scope.game.streak = 1;
 		initGameState(data);
 	});
