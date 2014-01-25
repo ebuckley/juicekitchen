@@ -81,7 +81,7 @@ angular.module('app', [])
 				];
 
 				if ($scope.game.streak > streaktypes.length) {
-					streak = streaktypes[streaktypes.length];
+					streak = streaktypes[streaktypes.length - 1];
 				} else {
 					streak = streaktypes[$scope.game.streak - 2];
 				}
