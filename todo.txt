@@ -1,14 +1,9 @@
-Image
-	path
-	id
 
-Match
-	id
-	images
-	data
-
-
-Todo
-Update Image tables
-Map routes
-Map Creation data access
+Features
+Better theme (usability)
+Download more pictures for a 
+Have a descending score based on time spent choosing an image.
+Add options choose your subreddit
+	choose New. Hot, Top other option.
+Multiplayer
+	You can see how many people have guessed and how many people got the question right

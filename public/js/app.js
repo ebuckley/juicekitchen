@@ -7,6 +7,7 @@ angular.module('app', [])
 		$scope.images = data;
 		$scope.game = {};
 		$scope.game.totalScore = 0;
+		$scope.game.streak = 0;
 		initGameState(data);
 	});
 
@@ -39,7 +40,6 @@ angular.module('app', [])
 		} else {
 			$scope.game.next = {url:'blank.png'};
 		}
-		console.log($scope.game);
 		$scope.$digest();
 	};
 	
@@ -55,9 +55,27 @@ angular.module('app', [])
 		var active = $scope.game.active;
 		var title = $scope.game.title;
 
-		if (active.title === title) {
-			alert('You got 10 doge!');
+		if (active.data.title === title) {
+			$scope.game.streak +=1;
+			$scope.game.totalScore += 10 * $scope.game.streak;
+			console.log($scope.game.totalScore);
+
+			var streak = "";
+			if ($scope.game.streak > 1) {
+				var streaktypes = [
+					'double!',
+					'triple!',
+					'ultra!',
+					'rampage!',
+					'wicked sick!'
+				];
+				streak = streaktypes[$scope.game.streak - 1];
+			}
+			alert('You got 10 doge!  ' + streak);
+		} else {
+			$scope.streak = 0;
 		}
+
 		initGameState($scope.images);
 	};
 })
@@ -80,7 +98,6 @@ angular.module('app', [])
 			invoke: '&'
 		},
 		link: function (scope, el, attr) {
-			console.log('linked a directive!');
 			Mousetrap.bind(attr.on, scope.invoke);
 		}
 	};
