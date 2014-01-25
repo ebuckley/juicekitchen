@@ -1,8 +1,9 @@
 
 body {
-	background-color: #E5E1D1;
+	background-color: #2C343B;
 }
 .main{
+	padding-top: 200px;
 }
 h1 {
 	color: #52616D;
@@ -15,4 +16,12 @@ h1 {
 
 div.header {
 	min-height: 200px;
+}
+.floater {
+	background-color: #E5E1D1;
+	position: fixed;
+	min-height: 50px;
+	width:100%;
+	padding:0px;
+	top: 0px;
 }

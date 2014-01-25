@@ -28,20 +28,15 @@ angular.module('app', [])
 	 * invokes a $digest, changes the active image.
 	 */
 	var updateGameState = function () {
-		$scope.game.activeIndex = Math.abs($scope.game.activeIndex % $scope.game.images.length);
+		var ind = function (activeIndex) {
+			return Math.abs(
+				activeIndex % $scope.game.images.length
+			);
+		};
+		$scope.game.activeIndex = ind($scope.game.activeIndex);
 		$scope.game.active = $scope.game.images[$scope.game.activeIndex];
-
-		if (($scope.game.activeIndex - 1) > 0) {
-			$scope.game.previous = $scope.game.images[$scope.game.activeIndex - 1];
-		} else {
-			$scope.game.previous = {url:'blank.png'};
-		}
-
-		if (($scope.game.activeIndex + 1) < $scope.game.images.length) {
-			$scope.game.next = $scope.game.images[$scope.game.activeIndex + 1];
-		} else {
-			$scope.game.next = {url:'blank.png'};
-		}
+		$scope.game.previous = $scope.game.images[ind($scope.game.activeIndex -1)];
+		$scope.game.next = $scope.game.images[ind($scope.game.activeIndex +1)];
 		$scope.$digest();
 	};
 	

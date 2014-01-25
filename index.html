@@ -15,24 +15,26 @@
 <keybinding on="left" invoke="goLeft()"></keybinding>
 <keybinding on="right" invoke="goRight()"></keybinding>
 <keybinding on="enter" invoke="answer()"></keybinding>
-<div class="container main">
+<div class="container floater">
 	<div class="row header">
 		<div class="col-md-2">
-			<h2 class='score'>
+			<h2 class='score pull-right'>
 			{{pad(game.totalScore, 4, '')}}
 			</h2>
 		</div>
 		<div class="col-md-8">
-			<h1>
+			<h1 class='center-block'>
 				{{game.title}}
 			</h1>
 		</div>
 		<div class="col-md-2">
-			<h2 class='score'>
+			<h2 class='score pull-left'>
 			<EM>X {{game.streak}}</EM>
 			</h2>
 		</div>
-		</div>
+	</div>
+</div>
+<div class="container main">
 		<div class="row">
 			<div class="col-md-2" >
 				<img src="{{game.previous.url}}" class="img-rounded pull-right" style="max-width:100%;">
