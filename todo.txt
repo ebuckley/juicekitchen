@@ -1,7 +1,7 @@
 
 Features
 Better theme (usability)
-Download more pictures for a 
+Download more pictures from the subreddit
 Have a descending score based on time spent choosing an image.
 Add options choose your subreddit
 	choose New. Hot, Top other option.
