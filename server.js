@@ -69,7 +69,13 @@ app.get('/scrape/:sub', function (req, res) {
 
 app.get('/images', function (req, res) {
 	DB.Images.get().then(function (data) {
-		res.send(data);
+		var resource = {
+			meta: {
+				count: data.length
+			},
+			objects: data,
+		}
+		res.send(resource);
 	}, function (err) {
 		res.status(400).send(err);
 	});

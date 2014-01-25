@@ -7,7 +7,7 @@ angular.module('app', [])
 		$scope.images = data;
 		$scope.game = {};
 		$scope.game.totalScore = 0;
-		$scope.game.streak = 0;
+		$scope.game.streak = 1;
 		initGameState(data);
 	});
 
@@ -15,8 +15,10 @@ angular.module('app', [])
 	 * initialize game state, does not reset score,
 	 */
 	var initGameState = function (data) {
-		$scope.game.images = _.sample(data, 5);
-		$scope.game.title = _.sample($scope.game.images, 1)[0].data.title;
+		console.log(data);
+		$scope.game.images = _.sample(data.objects, 5);
+		$scope.game.title = _.sample($scope.game.images, 1)[0]
+							.data.title;
 		$scope.game.activeIndex = Math.floor($scope.game.images.length / 2);
 		updateGameState();
 	};
@@ -43,6 +45,11 @@ angular.module('app', [])
 		$scope.$digest();
 	};
 	
+	$scope.pad = function (n, width, z) {
+		z = z || '0';
+		n = n + '';
+		return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
+	}
 	$scope.goLeft = function () {
 		$scope.game.activeIndex -= 1;
 		updateGameState();
@@ -51,14 +58,17 @@ angular.module('app', [])
 		$scope.game.activeIndex += 1;
 		updateGameState();
 	};
+
+	/**
+	 * answer the question
+	 */
 	$scope.answer = function() {
 		var active = $scope.game.active;
 		var title = $scope.game.title;
 
 		if (active.data.title === title) {
-			$scope.game.streak +=1;
-			$scope.game.totalScore += 10 * $scope.game.streak;
-			console.log($scope.game.totalScore);
+			var score_delta = 10 * $scope.game.streak;
+			$scope.game.totalScore += score_delta;
 
 			var streak = "";
 			if ($scope.game.streak > 1) {
@@ -69,11 +79,19 @@ angular.module('app', [])
 					'rampage!',
 					'wicked sick!'
 				];
-				streak = streaktypes[$scope.game.streak - 1];
+
+				if ($scope.game.streak > streaktypes.length) {
+					streak = streaktypes[streaktypes.length];
+				} else {
+					streak = streaktypes[$scope.game.streak - 2];
+				}
 			}
-			alert('You got 10 doge!  ' + streak);
+			var msg = 'You got ' + score_delta + ' doge!  ' + streak;
+			alert(msg);
+			$scope.game.streak +=1;
 		} else {
-			$scope.streak = 0;
+			console.log('got it wrong');
+			$scope.game.streak = 1;
 		}
 
 		initGameState($scope.images);

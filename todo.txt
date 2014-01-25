@@ -1,5 +1,6 @@
 
 Features
+Crit hits
 Better theme (usability)
 Download more pictures from the subreddit
 Have a descending score based on time spent choosing an image.
