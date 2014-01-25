@@ -12,41 +12,47 @@
 	<link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
 <body ng-controller='PageController'>
-<keybinding on="left" invoke="goLeft()"></keybinding>
-<keybinding on="right" invoke="goRight()"></keybinding>
-<keybinding on="enter" invoke="answer()"></keybinding>
-<div class="container floater">
-	<div class="row header">
-		<div class="col-md-2">
-			<h2 class='score pull-right'>
-			{{pad(game.totalScore, 4, '')}}
-			</h2>
-		</div>
-		<div class="col-md-8">
-			<h1 class='center-block'>
-				{{game.title}}
-			</h1>
-		</div>
-		<div class="col-md-2">
-			<h2 class='score pull-left'>
-			<EM>X {{game.streak}}</EM>
-			</h2>
-		</div>
-	</div>
-</div>
-<div class="container main">
-		<div class="row">
-			<div class="col-md-2" >
-				<img src="{{game.previous.url}}" class="img-rounded pull-right" style="max-width:100%;">
-			</div>
-			<div class="col-md-8 ">
-				<img src="{{game.active.url}}" class="img-rounded center-block" style="max-width:100%">
-			</div>
-			<div class="col-md-2">
-				<img src="{{game.next.url}}" class="img-rounded pull-left" style="max-width:100%;">
+	<keybinding on="left" invoke="goLeft()"></keybinding>
+	<keybinding on="right" invoke="goRight()"></keybinding>
+	<keybinding on="enter" invoke="answer()"></keybinding>
+	<div class="container floater">
+		<div class="container">
+			<div class="row header">
+				<div class="col-md-2">
+					<h2 class='score pull-right'>
+						{{pad(game.totalScore, 4, '')}}
+					</h2>
+					<div class='clearfix'></div>
+					<div class='score-display pull-right'>
+					<h3>{{game.flash}}</h3>
+					</div>
+				</div>
+				<div class="col-md-8">
+					<h1 class='center-block'>
+						{{game.title}}
+					</h1>
+				</div>
+				<div class="col-md-2">
+					<h2 class='score pull-left'>
+						<EM>X {{game.streak}}</EM>
+					</h2>
+				</div>
 			</div>
 		</div>
 	</div>
-</div>
+	<div class="container main">
+			<div class="content row">
+				<div class="col-md-2" >
+					<img src="{{game.previous.url}}" class="img-rounded pull-right" style="max-width:100%;">
+				</div>
+				<div class="col-md-8 ">
+					<img src="{{game.active.url}}" class="img-rounded center-block" style="max-width:100%">
+				</div>
+				<div class="col-md-2">
+					<img src="{{game.next.url}}" class="img-rounded pull-left" style="max-width:100%;">
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>

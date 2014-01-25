@@ -3,6 +3,9 @@ angular.module('app', [])
 	$scope.game = {
 	};
 	
+	//messages that spawn on the page below the score
+	$scope.game.flashes = [];
+
 	MatchService.getImages().success(function (data) {
 		$scope.images = data;
 		$scope.game = {};
@@ -15,7 +18,6 @@ angular.module('app', [])
 	 * initialize game state, does not reset score,
 	 */
 	var initGameState = function (data) {
-		console.log(data);
 		$scope.game.images = _.sample(data.objects, 5);
 		$scope.game.title = _.sample($scope.game.images, 1)[0]
 							.data.title;
@@ -54,16 +56,19 @@ angular.module('app', [])
 		updateGameState();
 	};
 
+
 	/**
 	 * answer the question
 	 */
 	$scope.answer = function() {
+		var flashes = []; 
 		var active = $scope.game.active;
 		var title = $scope.game.title;
 
 		if (active.data.title === title) {
 			var score_delta = 10 * $scope.game.streak;
 			$scope.game.totalScore += score_delta;
+			flashes.push("+ " + score_delta);
 
 			var streak = "";
 			if ($scope.game.streak > 1) {
@@ -80,15 +85,16 @@ angular.module('app', [])
 				} else {
 					streak = streaktypes[$scope.game.streak - 2];
 				}
+				flashes.push(streak);
 			}
 			var msg = 'You got ' + score_delta + ' doge!  ' + streak;
-			alert(msg);
 			$scope.game.streak +=1;
 		} else {
 			console.log('got it wrong');
 			$scope.game.streak = 1;
 		}
-
+		console.log(flashes);
+		$scope.game.flashes = flashes;
 		initGameState($scope.images);
 	};
 })

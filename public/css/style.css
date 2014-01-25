@@ -11,7 +11,7 @@ h1 {
 }
 
 .score {
-	color: #C44741;
+	color: #52616D;
 }
 
 div.header {
@@ -24,4 +24,12 @@ div.header {
 	width:100%;
 	padding:0px;
 	top: 0px;
+}
+.content {
+	margin-top: -35px;
+}
+
+.score-display {
+	color: #C44741;
+	size: 9em;
 }
