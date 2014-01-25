@@ -15,6 +15,7 @@ var knex = Knex.initialize({
 		filename: "./mydb.sqlite"
 	}
 });
+
 // database handle
 var DB = Data(knex);
 DB.createTables();

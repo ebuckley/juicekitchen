@@ -7,13 +7,23 @@ angular.module('app', [])
 		$scope.images = data;
 		$scope.game = {};
 		$scope.game.totalScore = 0;
+		initGameState(data);
+	});
+
+	/**
+	 * initialize game state, does not reset score,
+	 */
+	var initGameState = function (data) {
 		$scope.game.images = _.sample(data, 5);
 		$scope.game.title = _.sample($scope.game.images, 1)[0].data.title;
 		$scope.game.activeIndex = Math.floor($scope.game.images.length / 2);
 		updateGameState();
+	};
 
-	});
-
+	/**
+	 * Update state
+	 * invokes a $digest, changes the active image.
+	 */
 	var updateGameState = function () {
 		$scope.game.activeIndex = Math.abs($scope.game.activeIndex % $scope.game.images.length);
 		$scope.game.active = $scope.game.images[$scope.game.activeIndex];
@@ -32,10 +42,6 @@ angular.module('app', [])
 		console.log($scope.game);
 		$scope.$digest();
 	};
-
-	$scope.datify = function (arg) {
-		return "Created: " + moment.unix(arg).fromNow();
-	};
 	
 	$scope.goLeft = function () {
 		$scope.game.activeIndex -= 1;
@@ -46,7 +52,13 @@ angular.module('app', [])
 		updateGameState();
 	};
 	$scope.answer = function() {
-		console.log('ANSWER');
+		var active = $scope.game.active;
+		var title = $scope.game.title;
+
+		if (active.title === title) {
+			alert('You got 10 doge!');
+		}
+		initGameState($scope.images);
 	};
 })
 .service('MatchService',function ($http, $q) {
