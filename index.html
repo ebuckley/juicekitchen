@@ -9,15 +9,16 @@
 	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.5.0/moment.min.js"></script>
 	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mousetrap/1.4.6/mousetrap.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
 <body ng-controller='PageController'>
-<keybinding on="left" invoke="goLeft()">
-<keybinding on="right" invoke="goRight()">
-<keybinding on="enter" invoke="answer()">
-<div class="container">
-	<div class="row">
+<keybinding on="left" invoke="goLeft()"></keybinding>
+<keybinding on="right" invoke="goRight()"></keybinding>
+<keybinding on="enter" invoke="answer()"></keybinding>
+<div class="container main">
+	<div class="row header">
 		<div class="col-md-2">
-			<h2 style="color:#f00">
+			<h2 class='score'>
 			{{pad(game.totalScore, 4, '')}}
 			</h2>
 		</div>
@@ -27,29 +28,21 @@
 			</h1>
 		</div>
 		<div class="col-md-2">
-			<h2 style="color:#f00">
+			<h2 class='score'>
 			<EM>X {{game.streak}}</EM>
 			</h2>
 		</div>
 		</div>
-	</div>
-	<div class="row">
-		<div class="col-md-3" >
-			<img src="{{game.previous.url}}" style="max-width:100%;">
-		</div>
-		<div class="col-md-6">
-			<img src="{{game.active.url}}" style="max-width:100%">
-		</div>
-		<div class="col-md-3">
-			<img src="{{game.next.url}}" style="max-width:100%;">
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-md-3">
-		</div>
-		<div class="col-md-6">
-		</div>
-		<div class="col-md-3">
+		<div class="row">
+			<div class="col-md-2" >
+				<img src="{{game.previous.url}}" class="img-rounded pull-right" style="max-width:100%;">
+			</div>
+			<div class="col-md-8 ">
+				<img src="{{game.active.url}}" class="img-rounded center-block" style="max-width:100%">
+			</div>
+			<div class="col-md-2">
+				<img src="{{game.next.url}}" class="img-rounded pull-left" style="max-width:100%;">
+			</div>
 		</div>
 	</div>
 </div>
